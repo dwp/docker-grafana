@@ -51,5 +51,6 @@ aws ${PROFILE_OPTION} s3 cp ${S3_URI}/provisioning/datasource/datasource.yaml /e
 aws ${PROFILE_OPTION} s3 cp ${S3_URI}/provisioning/dashboards/dashboards.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
 aws ${PROFILE_OPTION} s3 cp ${S3_URI}/provisioning/dashboards/dashboard.json /etc/grafana/provisioning/dashboards/dashboard.json
 
+
 echo "INFO: Starting grafana..."
 exec /run.sh
