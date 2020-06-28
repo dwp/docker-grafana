@@ -47,6 +47,9 @@ fi
 
 echo "INFO: Copying grafana configuration file(s) from ${S3_URI} to /etc/grafana..."
 aws ${PROFILE_OPTION} s3 cp ${S3_URI}/grafana.ini /etc/grafana/grafana.ini
+aws ${PROFILE_OPTION} s3 cp ${S3_URI}/provisioning/datasource/datasource.yaml /etc/grafana/provisioning/datasources/datasource.yaml
+aws ${PROFILE_OPTION} s3 cp ${S3_URI}/provisioning/dashboards/dashboards.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
+aws ${PROFILE_OPTION} s3 cp ${S3_URI}/provisioning/dashboards/dashboard.json /etc/grafana/provisioning/dashboards/dashboard.json
 
 echo "INFO: Starting grafana..."
 exec /run.sh
