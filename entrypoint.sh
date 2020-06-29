@@ -47,6 +47,8 @@ fi
 
 echo "INFO: Copying grafana configuration file(s) from ${S3_URI} to /etc/grafana..."
 aws ${PROFILE_OPTION} s3 cp ${S3_URI}/grafana.ini /etc/grafana/grafana.ini
+aws ${PROFILE_OPTION} s3 sync ${S3_URI}/provisioning/ /etc/grafana/provisioning/
+
 
 echo "INFO: Starting grafana..."
 exec /run.sh
