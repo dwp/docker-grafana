@@ -45,10 +45,17 @@ else
     echo "INFO: Using attached IAM roles/instance profiles to authenticate with S3 as no AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY have been provided"
 fi
 
+echo "INFO: Fetching grafana credentials from $GRAFANA_CREDENTIALS"
+GRAFANA_CREDENTIALS=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --query SecretBinary --output text | base64 -D | jq .grafana)
+GRAFANA_USERNAME=$(echo $GRAFANA_CREDENTIALS | jq -r .username)
+GRAFANA_PASSWORD=$(echo $GRAFANA_CREDENTIALS | jq -r .password)
+
 echo "INFO: Copying grafana configuration file(s) from ${S3_URI} to /etc/grafana..."
 aws ${PROFILE_OPTION} s3 cp ${S3_URI}/grafana.ini /etc/grafana/grafana.ini
 aws ${PROFILE_OPTION} s3 sync ${S3_URI}/provisioning/ /etc/grafana/provisioning/
 
+sed "s/GRAFANA_USERNAME/$GRAFANA_USERNAME/g" /etc/grafana/grafana.ini
+sed "s/GRAFANA_PASSWORD/$GRAFANA_PASSWORD/g" /etc/grafana/grafana.ini
 
 echo "INFO: Starting grafana..."
 exec /run.sh
