@@ -54,8 +54,8 @@ echo "INFO: Copying grafana configuration file(s) from ${S3_URI} to /etc/grafana
 aws ${PROFILE_OPTION} s3 cp ${S3_URI}/grafana.ini /etc/grafana/grafana.ini
 aws ${PROFILE_OPTION} s3 sync ${S3_URI}/provisioning/ /etc/grafana/provisioning/
 
-sed "s/GRAFANA_USERNAME/$GRAFANA_USERNAME/g" /etc/grafana/grafana.ini
-sed "s/GRAFANA_PASSWORD/$GRAFANA_PASSWORD/g" /etc/grafana/grafana.ini
+sed -i "s/GRAFANA_USERNAME/$GRAFANA_USERNAME/g" /etc/grafana/grafana.ini
+sed -i "s/GRAFANA_PASSWORD/$GRAFANA_PASSWORD/g" /etc/grafana/grafana.ini
 
 echo "INFO: Starting grafana..."
 exec /run.sh
