@@ -45,7 +45,7 @@ else
     echo "INFO: Using attached IAM roles/instance profiles to authenticate with S3 as no AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY have been provided"
 fi
 
-echo "INFO: Fetching grafana credentials from $GRAFANA_CREDENTIALS"
+echo "INFO: Fetching grafana credentials from $SECRET_ID"
 GRAFANA_CREDENTIALS=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --query SecretBinary --output text | base64 -D | jq .grafana)
 GRAFANA_USERNAME=$(echo $GRAFANA_CREDENTIALS | jq -r .username)
 GRAFANA_PASSWORD=$(echo $GRAFANA_CREDENTIALS | jq -r .password)
