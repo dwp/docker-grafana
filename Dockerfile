@@ -1,4 +1,4 @@
-FROM grafana/grafana:7.2.0
+FROM grafana/grafana:7.3.4
 
 # Expose grafana port
 EXPOSE 3000
