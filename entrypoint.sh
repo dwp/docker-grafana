@@ -59,9 +59,3 @@ sed -i "s/GRAFANA_PASSWORD/$GRAFANA_PASSWORD/g" /etc/grafana/grafana.ini
 
 echo "INFO: Starting grafana..."
 exec /run.sh
-
-# change permissions on the private folder
-API_KEY=curl -X POST -H "Content-Type: application/json" -d '{"name":"apikeycurl", "role": "Admin"}' http://${GRAFANA_USERNAME}:${GRAFANA_PASSWORD}@localhost:3000/api/auth/keys | jq '.key'
-echo "INFO: Api key for default org $API_KEY"
-
-FOLDER_UID=curl -H "Authorization: Bearer $API_KEY" "Accept: application/json" -H "Content-Type: application/json" http://localhost:3000/api/folders?limit=5
