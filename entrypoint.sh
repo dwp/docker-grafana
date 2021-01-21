@@ -46,7 +46,7 @@ else
 fi
 
 echo "INFO: Fetching grafana credentials from $SECRET_ID"
-GRAFANA_CREDENTIALS=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --query SecretBinary --output text | base64 -d | jq .grafana)
+GRAFANA_CREDENTIALS=$(aws secretsmanager get-secret-value --secret-id $SECRET_ID --query SecretString --output text | jq .grafana)
 GRAFANA_USERNAME=$(echo $GRAFANA_CREDENTIALS | jq -r .username)
 GRAFANA_PASSWORD=$(echo $GRAFANA_CREDENTIALS | jq -r .password)
 
