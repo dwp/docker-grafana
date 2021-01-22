@@ -59,3 +59,20 @@ sed -i "s/GRAFANA_PASSWORD/$GRAFANA_PASSWORD/g" /etc/grafana/grafana.ini
 
 echo "INFO: Starting grafana..."
 exec /run.sh
+
+# update private folder permissions
+folders=$(curl https://$GRAFANA_USERNAME:$GRAFANA_PASSWORD@localhost:3000/api/folders)
+for row in $(echo "${folders}" | jq -r '.[] | @base64'); do
+    _jq() {
+    echo ${row} | base64 --decode | jq -r ${1}
+    }
+    if [ $(_jq '.title') = "private" ]; then
+        FOLDER_UID=$(_jq '.uid')
+    fi
+done
+if [ -z $FOLDER_UID ]; then
+echo "Updating folder permissions"
+curl -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"items": [{"role": "Editor","permission": 2}]}' https://$GRAFANA_USERNAME:$GRAFANA_PASSWORD@localhost:3000/api/folders/$FOLDER_UID/permissions
+else
+echo "No folder UID found, permissions not updated"
+fi
