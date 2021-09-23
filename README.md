@@ -1,9 +1,27 @@
-# docker-grafanadataworks-repo-template-docker
+# docker-grafana
+This repository contains code to create an image based on the Grafana image to be used within AWS
 
-## docker-grafanaDescription
+## Local Running
 
-This repo contains Makefile, and Dockerfile to fit the standard pattern.
-This repo is a base to create new Docker image repos, adding the githooks submodule, making the repo ready for use.
+This image pulls a [Grafana configuration file](https://grafana.com/docs/grafana/latest/administration/configuration/) from S3 using the S3 environment variables provided.
+It also acesses a secretmanager secret that needs to contain the following JSON
+```
+{
+    "grafana": {
+        "username": "grafana_admin_username",
+        "password: "grafana_admin_password"
+    }
+}
+```
 
-After cloning this repo, please run:  
-`make bootstrap`
+#### Required Environment Variables
+
+|             Key            |                                Description               |
+|----------------------------|----------------------------------------------------------|
+| GRAFANA_CONFIG_S3_BUCKET   | The ID of the config S3 bucket                           |
+| GRAFANA_CONFIG_S3_PREFIX   | The directory path of the config files within the bucket |
+| AWS_ACCESS_KEY_ID          | AWS access key                           |
+| AWS_SECRET_ACCESS_KEY      | AWS secret access key |
+| SECRET_ID                  | The id of the aws secretmanager secret that contains the grafana username and password
+
+
