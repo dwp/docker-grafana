@@ -1,3 +1,5 @@
+# DO NOT USE THIS REPO - MIGRATED TO GITLAB
+
 # docker-grafana
 This repository contains code to create an image based on the Grafana image to be used within AWS
 

@@ -5,8 +5,7 @@ EXPOSE 3000
 
 USER root
 
-RUN sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
-    apk upgrade --update-cache --available && \
+RUN apk upgrade --update-cache --available && \
     apk add --no-cache aws-cli jq && \
     chown -R grafana /etc/grafana
 
